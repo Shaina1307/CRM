@@ -27,11 +27,44 @@ exports.getCampaigns = async (req, res) => {
 };
 
 const getAudienceSize = async (rules) => {
-  // Implement the logic to fetch the audience size based on the provided rules
-  // and return the audience object
-};
-
-const sendCampaign = async (communicationLog) => {
-  // Simulate sending the campaign to a dummy vendor API
-  // Update the communicationLog entry with delivery status
-};
+    let query = {};
+  
+    if (rules.totalSpend) {
+      query.totalSpend = { $gt: parseFloat(rules.totalSpend) };
+    }
+  
+    if (rules.numVisits) {
+      query.numVisits = { $gt: parseInt(rules.numVisits) };
+    }
+  
+    if (rules.lastVisitDate) {
+      const lastVisitDate = new Date(rules.lastVisitDate);
+      const threemonthsAgo = new Date();
+      threemonthsAgo.setMonth(threemonthsAgo.getMonth() - 3);
+      query.lastVisitDate = { $lt: threemonthsAgo };
+    }
+  
+    const customers = await Customer.find(query);
+    const audience = customers.map((customer) => ({
+      name: customer.name,
+      email: customer.email,
+    }));
+  
+    return audience;
+  };
+  
+  const sendCampaign = async (communicationLog) => {
+    // Simulate sending the campaign to a dummy vendor API
+    const vendorResponses = [
+      { id: communicationLog._id, status: 'SENT' },
+      { id: communicationLog._id, status: 'FAILED' },
+      // Add more dummy responses as needed
+    ];
+  
+    for (const response of vendorResponses) {
+      await publishMessage({
+        type: 'UPDATE_COMMUNICATION_LOG',
+        payload: response,
+      });
+    }
+  };

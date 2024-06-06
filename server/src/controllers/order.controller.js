@@ -3,12 +3,12 @@ const Customer = require('../models/Customer');
 
 exports.createOrder = async (req, res) => {
   try {
-    const { customer, amount } = req.body;
-    const order = new Order({ customer, amount });
+    const { customerId, amount } = req.body;
+    const order = new Order({ customerId, amount });
     await order.save();
 
     // Update customer's totalSpend and numVisits
-    const customerObj = await Customer.findById(customer);
+    const customerObj = await Customer.findById(customerId);
     customerObj.totalSpend += amount;
     customerObj.numVisits += 1;
     customerObj.lastVisitDate = new Date();

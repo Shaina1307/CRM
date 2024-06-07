@@ -1,16 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import CustomerForm from './components/DataIngestion/CustomerForm';
-import OrderForm from './components/DataIngestion/OrderForm';
-import AudienceForm from './components/DataIngestion/AudienceForm';
-import CampaignList from './components/CampaignListing/CampaignList';
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import CustomerForm from "./components/DataIngestion/CustomerForm";
+import OrderForm from "./components/DataIngestion/OrderForm";
+import AudienceForm from "./components/DataIngestion/AudienceForm";
+import CampaignList from "./components/CampaignListing/CampaignList";
+import Login from "./components/Auth/Login";
 const App = () => {
   return (
     <Router>
       <div>
         <nav>
           <ul>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            {/* Other navigation links */}
             <li>
               <Link to="/customers">Create Customer</Link>
             </li>

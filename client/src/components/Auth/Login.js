@@ -1,14 +1,45 @@
-import React from 'react';
+// Login.js
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './Login.module.css'; // Import CSS module
 
-const Login = () => {
+const Login = ({ onLogin }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/status', {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        if (data.isAuthenticated) {
+          onLogin();
+          navigate('/home');
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+      }
+    };
+
+    checkAuthStatus();
+  }, [onLogin, navigate]);
+
   const handleGoogleLogin = () => {
     window.location.href = 'http://localhost:5000/api/auth/google';
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <button onClick={handleGoogleLogin}>Login with Google</button>
+    <div className={styles['login-container']}>
+      <div className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 shadow-lg">
+        <button
+          onClick={handleGoogleLogin}
+          className={styles['login-with-google-btn']}
+          style={{ minWidth: '200px' }} // Adjusted min width for better button size
+        >
+          <span style={{ fontSize: '16px' }}>Login with Google</span> {/* Increased font size */}
+        </button>
+      </div>
     </div>
   );
 };

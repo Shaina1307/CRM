@@ -26,10 +26,18 @@ router.get('/status', (req, res) => {
 
 module.exports = router;
 
-// Logout route
-router.post('/logout', (req, res) => {
-  req.session.destroy();
-  res.sendStatus(200);
-  req.logout(); // Clears the authenticated session
-  res.json({ message: 'Logout successful' });
+router.post('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) { return next(err); }
+    
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Failed to destroy session' });
+      }
+      
+      res.clearCookie('connect.sid', { path: '/login' });
+      res.status(200).json({ message: 'Logout successful' });
+    });
+  });
 });
+

@@ -34,6 +34,9 @@ const handleMessage = async (message) => {
           console.error(`[x] Customer with ID ${customerId} not found`);
         }
         break;
+      case 'UPDATE_COMMUNICATION_LOG':
+        // No operation for this case
+        break;
       default:
         console.log(`[x] Unhandled message type: ${message.type}`);
     }

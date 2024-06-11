@@ -26,21 +26,25 @@ const OrderForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log('Form submitted');  // Debugging statement
     const newErrors = validate();
+    console.log('Validation errors:', newErrors);  // Debugging statement
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     try {
+      console.log('Creating order with:', { customer: customerId, amount: parseFloat(amount) });  // Debugging statement
       await createOrder({ customer: customerId, amount: parseFloat(amount) });
       alert('Order created successfully');
       setCustomerId('');
       setAmount('');
       setErrors({});
     } catch (err) {
+      console.error('Error creating order:', err);  // Debugging statement
       alert('Error creating order');
-      console.error(err);
     }
   };
 

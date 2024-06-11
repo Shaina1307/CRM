@@ -9,4 +9,4 @@ const api = axios.create({
 export const createCustomer = (customerData) => api.post('/customers', customerData);
 export const createOrder = (orderData) => api.post('/orders', orderData);
 export const createAudience = (audienceData) => api.post('/campaigns/audience', audienceData);
-export const getCampaigns = () => api.get('/campaigns')
+export const getCampaigns = () => api.get('/campaigns/')

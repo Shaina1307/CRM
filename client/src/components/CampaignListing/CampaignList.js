@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getCampaigns } from '../../services/api';
-import './CampaignList.css'; // Import the CSS file
+import './CampaignList.css';
 
 const CampaignList = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -19,22 +19,26 @@ const CampaignList = () => {
   }, []);
 
   return (
-    <div className="campaign-list-container">
-      <h2 className="campaign-list-title">Past Campaigns</h2>
-      <div className="campaign-cards">
-        {campaigns.map((campaign) => (
-          <div key={campaign._id} className="campaign-card">
-            <h3 className="campaign-message">{campaign.message}</h3>
-            <p className="campaign-details">
-              <strong>Sent At:</strong> {new Date(campaign.sentAt).toLocaleString()}
-            </p>
-            <p className="campaign-details">
-              <strong>Status:</strong> {campaign.status}
-            </p>
-            {/* Display additional campaign statistics */}
-          </div>
-        ))}
-      </div>
+    <div>
+      <h2>Past Campaigns</h2>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Message</th>
+            <th>Sent At</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {campaigns.map((campaign) => (
+            <tr key={campaign._id}>
+              <td>{campaign.message}</td>
+              <td>{new Date(campaign.sentAt).toLocaleString()}</td>
+              <td>{campaign.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -25,12 +25,12 @@ const CampaignList = () => {
 
   return (
     <div>
-      <h2>Past Campaigns</h2>
+      <h2 className="heading">Past Campaigns</h2>
       <table className="table">
         <thead>
           <tr>
-            <th>Message</th>
-            <th>Sent At</th>
+            <th className="message-column">Message</th>
+            <th className="sentAt-column">Sent At</th>
             <th>Status</th>
             <th>Audience Size</th>
           </tr>
@@ -38,8 +38,8 @@ const CampaignList = () => {
         <tbody>
           {campaigns.map((campaign) => (
             <tr key={campaign._id}>
-              <td>{campaign.message}</td>
-              <td>{new Date(campaign.sentAt).toLocaleString()}</td>
+              <td className="message-column">{campaign.message}</td>
+              <td className="sentAt-column">{new Date(campaign.sentAt).toLocaleString()}</td>
               <td>{campaign.status}</td>
               <td>{getAudienceSize(campaign.audience)}</td>
             </tr>

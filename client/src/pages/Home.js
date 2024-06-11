@@ -37,7 +37,6 @@ const Home = ({ onLogout }) => {
       </nav>
 
       <div className="content">
-        <h1 className="page-title">Welcome to the Dashboard</h1>
         <Routes>
           <Route path="/customers" element={<CustomerForm />} />
           <Route path="/orders" element={<OrderForm />} />

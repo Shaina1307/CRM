@@ -11,7 +11,8 @@ const AudienceForm = () => {
 
   const initialValues = {
     rules: [{ field: 'totalSpend', operator: '>', value: '' }],
-    message: ''
+    message: '',
+    logicalOperator: 'AND' // Default logical operator
   };
 
   const validationSchema = Yup.object().shape({
@@ -22,7 +23,8 @@ const AudienceForm = () => {
         value: Yup.string().required('Value is required')
       })
     ),
-    message: Yup.string().required('Message is required')
+    message: Yup.string().required('Message is required'),
+    logicalOperator: Yup.string().required('Logical operator is required').oneOf(['AND', 'OR'], 'Logical operator must be either AND or OR')
   });
 
   const handleCheckAudienceSize = async (values) => {
@@ -50,96 +52,108 @@ const AudienceForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4 text-center">Create Campaign</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ values, isSubmitting }) => (
-          <Form>
-            <FieldArray name="rules">
-              {({ insert, remove, push }) => (
-                <div className="rules-container">
-                  {values.rules.length > 0 &&
-                    values.rules.map((rule, index) => (
-                      <div className="rule-item" key={index}>
-                        <div className="rule-fields">
-                          <Field name={`rules.${index}.field`} as="select" className="rule-field">
-                            <option value="totalSpend">Total Spend</option>
-                            <option value="numVisits">Number of Visits</option>
-                            <option value="lastVisitDate">Last Visit Date</option>
-                          </Field>
-                          <ErrorMessage name={`rules.${index}.field`} component="div" className="error-message" />
-                        </div>
-                        <div className="rule-operator">
-                          <Field name={`rules.${index}.operator`} as="select" className="rule-operator-select">
-                            <option value=">">Greater than</option>
-                            <option value=">=">Greater than or equal</option>
-                            <option value="<">Less than</option>
-                            <option value="<=">Less than or equal</option>
-                            <option value="=">Equal to</option>
-                            <option value="!=">Not equal to</option>
-                          </Field>
-                          <ErrorMessage name={`rules.${index}.operator`} component="div" className="error-message" />
-                        </div>
-                        <div className="rule-value">
-                          <Field name={`rules.${index}.value`} type="text" className="rule-value-input" />
-                          <ErrorMessage name={`rules.${index}.value`} component="div" className="error-message" />
-                        </div>
-                        <div className="rule-remove">
-                          <button
-                            type="button"
-                            className="remove-button"
-                            onClick={() => remove(index)}
-                          >
-                            X
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+    <div className="centered-container">
+      <div className="form-container">
+        <div className="max-w-lg mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
+          <h1 className="text-2xl font-bold mb-4 text-center">Create Campaign</h1>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ values, isSubmitting }) => (
+              <Form>
+                <FieldArray name="rules">
+                  {({ insert, remove, push }) => (
+                    <div className="rules-container">
+                      {values.rules.length > 0 &&
+                        values.rules.map((rule, index) => (
+                          <div className="rule-item" key={index}>
+                            <div className="rule-fields">
+                              <Field name={`rules.${index}.field`} as="select" className="rule-field">
+                                <option value="totalSpend">Total Spend</option>
+                                <option value="numVisits">Number of Visits</option>
+                                <option value="lastVisitDate">Last Visit Date</option>
+                              </Field>
+                              <ErrorMessage name={`rules.${index}.field`} component="div" className="error-message" />
+                            </div>
+                            <div className="rule-operator">
+                              <Field name={`rules.${index}.operator`} as="select" className="rule-operator-select">
+                                <option value=">">Greater than</option>
+                                <option value=">=">Greater than or equal</option>
+                                <option value="<">Less than</option>
+                                <option value="<=">Less than or equal</option>
+                                <option value="=">Equal to</option>
+                                <option value="!=">Not equal to</option>
+                              </Field>
+                              <ErrorMessage name={`rules.${index}.operator`} component="div" className="error-message" />
+                            </div>
+                            <div className="rule-value">
+                              <Field name={`rules.${index}.value`} type="text" className="rule-value-input" />
+                              <ErrorMessage name={`rules.${index}.value`} component="div" className="error-message" />
+                            </div>
+                            <div className="rule-remove">
+                              <button
+                                type="button"
+                                className="remove-button"
+                                onClick={() => remove(index)}
+                              >
+                                X
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      <button
+                        type="button"
+                        className="add-rule-button"
+                        onClick={() => {
+                          console.log('Adding rule...');
+                          push({ field: '', operator: '', value: '' });
+                        }}
+                      >
+                        Add Rule
+                      </button>
+                    </div>
+                  )}
+                </FieldArray>
+
+                <div className="message-field">
+                  <Field name="message" type="text" placeholder="Message" className="message-input" />
+                  <ErrorMessage name="message" component="div" className="error-message" />
+                </div>
+
+                <div className="logical-operator-field">
+                  <Field name="logicalOperator" as="select" className="logical-operator-select">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                  </Field>
+                  <ErrorMessage name="logicalOperator" component="div" className="error-message" />
+                </div>
+
+                <div className="check-audience">
                   <button
                     type="button"
-                    className="add-rule-button"
+                    className="check-audience-button"
                     onClick={() => {
-                      console.log('Adding rule...');
-                      push({ field: '', operator: '', value: '' });
+                      console.log('Checking audience size...');
+                      handleCheckAudienceSize(values);
                     }}
                   >
-                    Add Rule
+                    Check Audience Size
+                  </button>
+                  {audienceSize !== null && <div className="audience-size">Audience Size: {audienceSize}</div>}
+                </div>
+
+                <div className="submit-button">
+                  <button type="submit" className="submit-button" disabled={isSubmitting}>
+                    Create Campaign
                   </button>
                 </div>
-              )}
-            </FieldArray>
-
-            <div className="message-field">
-              <Field name="message" type="text" placeholder="Message" className="message-input" />
-              <ErrorMessage name="message" component="div" className="error-message" />
-            </div>
-
-            <div className="check-audience">
-              <button
-                type="button"
-                className="check-audience-button"
-                onClick={() => {
-                  console.log('Checking audience size...');
-                  handleCheckAudienceSize(values);
-                }}
-              >
-                Check Audience Size
-              </button>
-              {audienceSize !== null && <div className="audience-size">Audience Size: {audienceSize}</div>}
-            </div>
-
-            <div className="submit-button">
-              <button type="submit" className="submit-button">
-                Create Campaign
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
     </div>
   );
 };

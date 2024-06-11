@@ -10,10 +10,10 @@ exports.createAudience = async (req, res) => {
     // Validation
     await validateCreateAudienceRequest(req);
 
-    const { rules, message } = req.body;
-    console.log('Validation successful. Rules:', rules, 'Message:', message);
+    const { rules, message, logicalOperator } = req.body;
+    console.log('Validation successful. Rules:', rules, 'Message:', message, 'LogicalOperator:', logicalOperator);
 
-    const audience = await getAudienceSize(rules);
+    const audience = await getAudienceSize(rules, logicalOperator);
     const audienceSize = audience.length;
     console.log('Audience size:', audienceSize);
 
@@ -35,7 +35,6 @@ exports.createAudience = async (req, res) => {
   }
 };
 
-
 exports.getCampaigns = async (req, res) => {
   try {
     console.log('Received request to get campaigns');
@@ -54,8 +53,8 @@ exports.checkAudienceSize = async (req, res) => {
 
     await validateCreateAudienceRequest(req);
 
-    const { rules } = req.body;
-    const audience = await getAudienceSize(rules);
+    const { rules, logicalOperator } = req.body;
+    const audience = await getAudienceSize(rules, logicalOperator);
     
     console.log('Audience size checked:', audience.length);
     res.json({ audienceSize: audience.length });
@@ -74,6 +73,7 @@ const validateCreateAudienceRequest = async (req) => {
     body('rules.*.operator').exists().withMessage('Each rule must have an operator').isString().withMessage('Operator must be a string'),
     body('rules.*.value').exists().withMessage('Each rule must have a value'),
     body('message').exists().withMessage('Message is required').isString().withMessage('Message must be a string'),
+    body('logicalOperator').exists().withMessage('Logical operator is required').isString().withMessage('Logical operator must be a string').isIn(['AND', 'OR']).withMessage('Logical operator must be either AND or OR'),
   ];
 
   await Promise.all(validations.map(validation => validation.run(req)));
@@ -88,28 +88,16 @@ const validateCreateAudienceRequest = async (req) => {
   console.log('Validation successful');
 };
 
-const getAudienceSize = async (rules) => {
-  console.log('Getting audience size for rules:', rules);
+const getAudienceSize = async (rules, logicalOperator) => {
+  console.log('Getting audience size for rules:', rules, 'with logical operator:', logicalOperator);
 
-  const query = {};
-
-  rules.forEach(rule => {
-    switch (rule.field) {
-      case 'totalSpend':
-        query.totalSpend = { [getMongoOperator(rule.operator)]: parseFloat(rule.value) };
-        break;
-      case 'numVisits':
-        query.numVisits = { [getMongoOperator(rule.operator)]: parseInt(rule.value) };
-        break;
-      case 'lastVisitDate':
-        const date = new Date(rule.value);
-        query.lastVisitDate = { [getMongoOperator(rule.operator)]: date };
-        break;
-      default:
-        throw new Error(`Unsupported field: ${rule.field}`);
-    }
+  const queryConditions = rules.map(rule => {
+    const condition = {};
+    condition[rule.field] = { [getMongoOperator(rule.operator)]: parseFieldValue(rule.field, rule.value) };
+    return condition;
   });
 
+  const query = logicalOperator === 'AND' ? { $and: queryConditions } : { $or: queryConditions };
   console.log('Query generated:', query);
 
   const customers = await Customer.find(query);
@@ -121,6 +109,19 @@ const getAudienceSize = async (rules) => {
   console.log('Audience found:', audience);
 
   return audience;
+};
+
+const parseFieldValue = (field, value) => {
+  switch (field) {
+    case 'totalSpend':
+      return parseFloat(value);
+    case 'numVisits':
+      return parseInt(value);
+    case 'lastVisitDate':
+      return new Date(value);
+    default:
+      throw new Error(`Unsupported field: ${field}`);
+  }
 };
 
 const getMongoOperator = (operator) => {

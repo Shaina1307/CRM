@@ -18,6 +18,11 @@ const CampaignList = () => {
     fetchCampaigns();
   }, []);
 
+  const getAudienceSize = (audience) => {
+    const sizeInfo = audience.find(aud => aud.audienceSize !== undefined);
+    return sizeInfo ? sizeInfo.audienceSize : 'N/A';
+  };
+
   return (
     <div>
       <h2>Past Campaigns</h2>
@@ -27,6 +32,7 @@ const CampaignList = () => {
             <th>Message</th>
             <th>Sent At</th>
             <th>Status</th>
+            <th>Audience Size</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +41,7 @@ const CampaignList = () => {
               <td>{campaign.message}</td>
               <td>{new Date(campaign.sentAt).toLocaleString()}</td>
               <td>{campaign.status}</td>
+              <td>{getAudienceSize(campaign.audience)}</td>
             </tr>
           ))}
         </tbody>

@@ -1,6 +1,5 @@
 // order.routes.js
 const express = require('express');
-const { body } = require('express-validator');
 const orderController = require('../controllers/order.controller');
 const router = express.Router();
 

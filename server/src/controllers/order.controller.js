@@ -1,5 +1,4 @@
-// order.controller.js
-const { validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const queueService = require('../services/queue.service');
 
 // Validation middleware
@@ -18,9 +17,11 @@ exports.createOrder = async (req, res) => {
 
   try {
     const order = req.body;
+    console.log(`[x] Creating order with payload: ${JSON.stringify(order)}`);
     await queueService.publishMessage({ type: 'CREATE_ORDER', payload: order });
     res.status(201).json(order);
   } catch (err) {
+    console.error(`[x] Error creating order: ${err.message}`);
     res.status(400).json({ error: err.message });
   }
 };

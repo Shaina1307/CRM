@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('D:\GITHUB\mini-crm-app\client\public\bg.jpg') no-repeat center center/cover;
+    background: url('../../../public/bg.jpg') no-repeat center center/cover;
   }
   
   .login-container {

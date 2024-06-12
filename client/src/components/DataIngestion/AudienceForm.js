@@ -43,6 +43,7 @@ const AudienceForm = () => {
     try {
       await axios.post('http://localhost:5000/api/campaigns/create-audience', values);
       console.log('Campaign created successfully');
+      alert('Campaign created successfully');
       navigate('/home/audience');
     } catch (error) {
       console.error('Error creating audience', error.response.data);
@@ -61,8 +62,8 @@ const AudienceForm = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ values, isSubmitting }) => (
-              <Form>
+            {({ values, isSubmitting, handleSubmit }) => (
+              <Form onSubmit={handleSubmit}>
                 <FieldArray name="rules">
                   {({ insert, remove, push }) => (
                     <div className="rules-container">

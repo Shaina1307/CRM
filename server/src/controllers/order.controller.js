@@ -1,5 +1,5 @@
 // order.controller.js
-const { body, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const queueService = require('../services/queue.service');
 
 // Validation middleware

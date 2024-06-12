@@ -4,6 +4,7 @@ import CustomerForm from '../components/DataIngestion/CustomerForm';
 import OrderForm from '../components/DataIngestion/OrderForm';
 import AudienceForm from '../components/DataIngestion/AudienceForm';
 import CampaignList from '../components/CampaignListing/CampaignList';
+import HomePage from '../pages/HomePage'; // Import the HomePage component
 import './Home.css';
 
 const Home = ({ onLogout }) => {
@@ -19,9 +20,6 @@ const Home = ({ onLogout }) => {
       <nav className="navbar">
         <ul>
           <li>
-            <button onClick={handleLogout}>Logout</button>
-          </li>
-          <li>
             <Link to="/home/customers">Create Customer</Link>
           </li>
           <li>
@@ -33,6 +31,9 @@ const Home = ({ onLogout }) => {
           <li>
             <Link to="/home/campaigns">Campaign List</Link>
           </li>
+          <li className="logout-button">
+            <button onClick={handleLogout}>Logout</button>
+          </li>
         </ul>
       </nav>
 
@@ -42,6 +43,7 @@ const Home = ({ onLogout }) => {
           <Route path="/orders" element={<OrderForm />} />
           <Route path="/audience" element={<AudienceForm />} />
           <Route path="/campaigns" element={<CampaignList />} />
+          <Route path="/" element={<HomePage />} /> {/* Add this route */}
         </Routes>
       </div>
     </div>

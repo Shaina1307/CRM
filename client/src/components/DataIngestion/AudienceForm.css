@@ -84,6 +84,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 10px; /* Added margin-top */
   }
   
   .audience-size {
@@ -107,17 +108,21 @@
     color: #ff4d4d;
     font-size: 14px;
   }
- 
+  
   .centered-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
   }
   
   .form-container {
     border: 2px solid #ddd;
     padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
   }
   
   .rule-item {
@@ -192,8 +197,25 @@
     color: #f44336;
   }
   
-  /* Add other CSS styling for your form as before */
+  /* Enhanced styling for the Create Campaign heading */
+  .heading {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #4caf50;
+    padding-bottom: 0.5rem;
+    margin-top: -20px;
+  }
   
+  .heading::before {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background-color: #4caf50;
+    margin: 0 auto 1rem;
+  }
   
-  /* Add other CSS styling for your form as before */
+  /* Add other CSS styling for your form as needed */
   

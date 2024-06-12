@@ -53,9 +53,9 @@ const AudienceForm = () => {
 
   return (
     <div className="centered-container">
+      <h1 className="heading">Create Campaign</h1>
       <div className="form-container">
         <div className="max-w-lg mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
-          <h1 className="text-2xl font-bold mb-4 text-center">Create Campaign</h1>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

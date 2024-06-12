@@ -46,33 +46,36 @@ const CustomerForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="customer-form">
-      <div className="form-group">
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="input-field"
-        />
-        {errors.name && <div className="error">{errors.name}</div>}
-      </div>
+    <div className="centered-container">
+      <h1 className="heading">Create Customer</h1>
+      <form onSubmit={handleSubmit} className="customer-form">
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="input-field"
+          />
+          {errors.name && <div className="error">{errors.name}</div>}
+        </div>
 
-      <div className="form-group">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="input-field"
-        />
-        {errors.email && <div className="error">{errors.email}</div>}
-      </div>
+        <div className="form-group">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="input-field"
+          />
+          {errors.email && <div className="error">{errors.email}</div>}
+        </div>
 
-      <button type="submit" className="submit-button" disabled={Object.keys(errors).length > 0}>Create Customer</button>
-    </form>
+        <button type="submit" className="submit-button">Create Customer</button>
+      </form>
+    </div>
   );
 };
 

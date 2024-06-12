@@ -90,7 +90,11 @@ const AudienceForm = () => {
                               <ErrorMessage name={`rules.${index}.operator`} component="div" className="error-message" />
                             </div>
                             <div className="rule-value">
-                              <Field name={`rules.${index}.value`} type="text" className="rule-value-input" />
+                              <Field
+                                name={`rules.${index}.value`}
+                                type={rule.field === 'lastVisitDate' ? 'date' : 'text'}
+                                className="rule-value-input"
+                              />
                               <ErrorMessage name={`rules.${index}.value`} component="div" className="error-message" />
                             </div>
                             <div className="rule-remove">

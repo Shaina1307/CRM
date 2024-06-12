@@ -18,6 +18,12 @@ exports.createOrder = async (req, res) => {
   try {
     const order = req.body;
     console.log(`[x] Creating order with payload: ${JSON.stringify(order)}`);
+    
+    // Ensure customerId is present
+    if (!order.customerId) {
+      return res.status(400).json({ error: 'CustomerId is required' });
+    }
+
     await queueService.publishMessage({ type: 'CREATE_ORDER', payload: order });
     res.status(201).json(order);
   } catch (err) {

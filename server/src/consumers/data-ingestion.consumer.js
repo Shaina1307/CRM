@@ -32,6 +32,7 @@ const handleMessage = async (message) => {
 
         // Update customer's totalSpend and numVisits
         try {
+          const order = new Order(message.payload);
           const customerId = order.customerId;
     
           console.log(`[x] Fetching customer with ID: ${customerId}`);

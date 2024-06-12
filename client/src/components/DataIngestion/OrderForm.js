@@ -37,7 +37,7 @@ const OrderForm = () => {
 
     try {
       console.log('Creating order with:', { customer: customerId, amount: parseFloat(amount) });  // Debugging statement
-      await createOrder({ customer: customerId, amount: parseFloat(amount) });
+      await createOrder({ customerId: customerId, amount: parseFloat(amount) });
       alert('Order created successfully');
       setCustomerId('');
       setAmount('');

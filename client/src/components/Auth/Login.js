@@ -31,8 +31,8 @@ const Login = ({ onLogin }) => {
   return (
     <div className={styles['login-page']}>
       <div className={styles['login-container']}>
-        <h1 className={styles['title']}>Welcome to Mini-CRM</h1>
-        <p className={styles['subtitle']}>Manage your customer relationships with ease.</p>
+        <h1 className={styles['title']}>Welcome to Your Smart CRM hub-Where Connections Thrive!</h1>
+        <p className={styles['subtitle']}>Fostering Stronger Connections for Lasting Customer Relationship</p>
         <div className={styles['login-box']}>
           <button
             onClick={handleGoogleLogin}

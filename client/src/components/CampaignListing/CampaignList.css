@@ -1,36 +1,64 @@
 .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #444;
+}
+
+.table th {
+  background-color: #1f1f1f;
+  text-align: left;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.table td {
+  background-color: #161616;
+}
+
+.table tr:nth-child(even) td {
+  background-color: #1c1c1c;
+}
+
+.table tr:hover td {
+  background-color: #333333;
+  cursor: pointer;
+}
+
+.message-column {
+  width: 25%;
+}
+
+.sentAt-column {
+  width: 15%;
+  text-align: center;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #4caf50;
+  border-bottom: 2px solid #444;
+  padding-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.9rem;
   }
-  
-  .table th,
-  .table td {
-    padding: 0.75rem;
-    vertical-align: top;
-  }
-  
-  .table th {
-    border-top: 1px solid #dee2e6;
-    text-align: left;
-  }
-  
-  .table td {
-    border-top: 1px solid #dee2e6;
-  }
-  
-  .message-column {
-    width: 25%; /* Adjust the width as needed */
-  }
-  
+
+  .message-column,
   .sentAt-column {
-    width: 15%; /* Adjust the width as needed */
+    width: auto;
   }
-  
-  .heading {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    color: #333;
-  }
-  
+}
